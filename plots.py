@@ -1,64 +1,50 @@
-"""This create visulaise data page"""
+"""This modules contains data about visualisation page"""
 
-# Import necessary module
-import streamlit as st
+# Import necessary modules
+import warnings
 import matplotlib.pyplot as plt
 import seaborn as sns
+'''from sklearn.metrics import plot_confusion_matrix'''
+from sklearn import tree
+import streamlit as st
 
-def app(df):
-    # Remove deprecation warning.
+
+# Import necessary functions from web_functions
+from web_functions import train_model
+
+def app(df, X, y):
+    """This function create the visualisation page"""
+    
+    # Remove the warnings
+    warnings.filterwarnings('ignore')
     st.set_option('deprecation.showPyplotGlobalUse', False)
 
-    # Give title
-    st.title("Visulise Data")
+    # Set the page title
+    st.title("Visualise Some Demographics")
 
-    # Creat a section for scatter plot
-    st.header("Scatterplot")
-
-    # Creat a mulit-select option to get x-axis from the user.
-    feature_list = st.multiselect("Select x-axis values:", ('carwidth', 'enginesize', 'horsepower', 'drivewheel_fwd', 'car_company_buick'))
-
-    for feature in feature_list:
-        fig = plt.figure(figsize=(12, 5))
-        st.subheader(f"Scatter plot between {feature} and price")
-        sns.scatterplot(x='price', y=feature, data=df)
-        st.pyplot(fig)
-    
-    # Create a section for Visualisation Selector
-    st.header("Visulisation Selector")
-    
-    # Create a multiselect option to create plots or charts.
-    plot_type = st.multiselect("Select charts or plots:", ('Histogram', 'Box Plot', 'Correlation Heatmap'))
-
-    # Create plot for histogram.
-    if ("Histogram" in plot_type):
-        st.subheader("Histogram")
-        # Take column from user.
-        hist_column = st.selectbox("Select the column to create its histogram", ('carwidth', 'enginesize', 'horsepower'))
-        # Plot the chart.
-        fig = plt.figure(figsize=(12, 5))
-        plt.title(f"Histogram for {hist_column}")
-        plt.hist(x=df[hist_column], bins = 'sturges', edgecolor = 'black')
-        st.pyplot(fig)
-
-    # Create plot for boxplot.
-    if ("Box Plot" in plot_type):
-        st.subheader("Boxplot")
-        # Take column from user.
-        box_column = st.selectbox("Select the column to create its boxplot", ('carwidth', 'enginesize', 'horsepower'))
-        # Plot the chart.
-        fig = plt.figure(figsize=(12, 2))
-        plt.title(f"Box plot for {box_column}")
-        sns.boxplot(df[box_column])
-        st.pyplot(fig)
-
-    # Create plot for boxplot.
-    if ("Correlation Heatmap" in plot_type):
+    # Create a checkbox to show correlation heatmap
+    if st.checkbox("Show the correlation heatmap"):
         st.subheader("Correlation Heatmap")
-        # Plot the chart.
-        fig = plt.figure(figsize=(12, 10))
-        ax = sns.heatmap(df.corr(), annot=True)
-        bottom, top = ax.get_ylim() # Getting the top and bottom margin limits.
-        ax.set_ylim(bottom + 0.5, top - 0.5) # Increasing the bottom and decreasing the bottom margins respectively.
+
+        fig = plt.figure(figsize = (8, 6))
+        ax = sns.heatmap(df.iloc[:, 1:].corr(), annot = True)   # Creating an object of seaborn axis and storing it in 'ax' variable
+        bottom, top = ax.get_ylim()                             # Getting the top and bottom margin limits.
+        ax.set_ylim(bottom + 0.5, top - 0.5)                    # Increasing the bottom and decreasing the top margins respectively.
         st.pyplot(fig)
 
+    if st.checkbox("TopSpeed_KmH vs Range_Km"):
+        sns.color_palette("rocket", as_cmap=True)
+        ax=sns.scatterplot(x="TopSpeed_KmH",y="Range_Km",data=df)
+        st.pyplot()
+    
+    if st.checkbox("Efficiency_WhKm vs FastCharge_KmH"):
+        sns.color_palette("winter", as_cmap=True)
+        ax=sns.scatterplot(x="Efficiency_WhKm",y="FastCharge_KmH",data=df)
+        st.pyplot()
+        
+    if st.checkbox("Efficiency_WhKm vs Price"):
+        sns.color_palette("winter", as_cmap=True)
+        ax=sns.scatterplot(x="Efficiency_WhKm",y="Price",data=df)
+        st.pyplot()
+
+     
