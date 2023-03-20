@@ -1,39 +1,48 @@
-"""This create view data page"""
+"""This modules contains data about home page"""
 
-# Import necessary module
+# Import necessary modules
 import streamlit as st
 
+
 def app(df):
-    # Give title
-    st.title("View Data")
+    """This function create the Data Info page"""
 
-    # Create expander to show dataset data.
-    with st.expander("View Data"):
-        st.table(df)
+    # Add title to the page
+    st.title("Data Info page")
+
+    # Add subheader for the section
+    st.subheader("View Data")
+
+    # Create an expansion option to check the data
+    with st.expander("View data"):
+        st.dataframe(df)
+
+    # Create a section to columns values
+    # Give subheader
+    st.subheader("Columns Description:")
+
+    # Create a checkbox to get the summary.
+    if st.checkbox("View Summary"):
+        st.dataframe(df.describe())
+
+    # Create multiple check box in row
+    col_name, col_dtype, col_data = st.columns(3)
+
+    # Show name of all dataframe
+    with col_name:
+        if st.checkbox("Column Names"):
+            st.dataframe(df.columns)
+
+    # Show datatype of all columns 
+    with col_dtype:
+        if st.checkbox("Columns data types"):
+            dtypes = df.dtypes.apply(lambda x: x.name)
+            st.dataframe(dtypes)
     
-    # Create a section to show info about dataset.
-    st.header("Columns Summary:")
+    # Show data for each columns
+    with col_data: 
+        if st.checkbox("Columns Data"):
+            col = st.selectbox("Column Name", list(df.columns))
+            st.dataframe(df[col])
 
-    # Show the describtion of dataset.
-    if st.checkbox("Show Summary"):
-        st.table(df.describe())
-
-    # Creat a row with three columns to show info about columns.
-    col1, col2, col3 = st.columns(3)
-
-    # Add checkbox to show the columns name
-    with col1:
-        if st.checkbox("Show columns name"):
-            st.table(df.columns)
-
-    # Add checkbox to show the columns datatype
-    with col2:
-        if st.checkbox("View columns datatype"):
-            dtypes_df = df.dtypes.apply(lambda x: x.name)
-            st.table(dtypes_df)
-
-    # Add checkbox to show the columns data.
-    with col3:
-        if st.checkbox("View column data"):
-            column_data = st.selectbox("Select column", tuple(df.columns))
-            st.write(df[column_data])
+    
