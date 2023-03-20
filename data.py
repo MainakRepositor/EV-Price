@@ -14,8 +14,7 @@ def app(df):
     st.subheader("View Data")
 
     # Create an expansion option to check the data
-    with st.expander("View data"):
-        st.dataframe(df)
+    st.dataframe(df)
 
     # Create a section to columns values
     # Give subheader
