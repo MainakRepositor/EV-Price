@@ -4,10 +4,6 @@
 import streamlit as st
 
 def app():
-    st.title("Car Pridiction app")
+    st.title("EV Price Pridictor")
     st.image("./welcome.jpg")
-    st.text(
-        """
-        Find out how much your dream EV can cost depending on the parameters
-         """
-    )
+    st.subtitle( """ Find out how much your dream EV can cost depending on the parameters """)
