@@ -6,7 +6,7 @@ import streamlit as st
 def app():
     st.balloons()
     st.title('Contact Us')
-    st.markdown('''### The Creators:''')
-    st.markdown('''Kshitij Khare''')
+    st.markdown('''### © 2023  ''')
+    st.markdown('''All Rights Reserved. Quantum Cars''')
     
     
