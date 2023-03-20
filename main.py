@@ -6,7 +6,6 @@ import streamlit as st
 # Import pages.
 import home
 import data
-import plots
 import predict
 import about
 
@@ -15,7 +14,7 @@ from prepro import load_data
 
 # Configure the web page.
 st.set_page_config(
-    page_title = 'Car Insurance Price Prediction',
+    page_title = 'EV Cost Prediction',
     page_icon = 'car',
     layout = 'centered',
     initial_sidebar_state = 'auto'
@@ -25,7 +24,6 @@ st.set_page_config(
 pages_dict = {
                 "Home": home,
                 "View Data": data, 
-                "Visualize": plots,
                 "Predict": predict,
                 "About me": about
             }
@@ -35,7 +33,7 @@ df = load_data()
 
 # Create navbar in sidebar.
 st.sidebar.title("Navigation")
-user_choice = st.sidebar.radio('Go to', ("Home", "View Data", "Visualize", "Predict", "About me"))
+user_choice = st.sidebar.radio('Go to', ("Home", "View Data", "Predict", "About me"))
 
 # Open the page selected by the user.
 if (user_choice == "Home" or user_choice == "About me"):
