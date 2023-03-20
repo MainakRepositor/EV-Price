@@ -6,7 +6,7 @@ import streamlit as st
 # Import pages.
 import home
 import data
-import plots
+
 import predict
 import about
 
@@ -25,7 +25,7 @@ st.set_page_config(
 pages_dict = {
                 "Home": home,
                 "View Data": data, 
-                "Visualise Data": plots, 
+               
                 "Predict": predict,
                 "About me": about
             }
@@ -35,7 +35,7 @@ df = load_data()
 
 # Create navbar in sidebar.
 st.sidebar.title("Navigation")
-user_choice = st.sidebar.radio('Go to', ("Home", "View Data", "Visualise Data", "Predict", "About me"))
+user_choice = st.sidebar.radio('Go to', ("Home", "View Data", "Predict", "About me"))
 
 # Open the page selected by the user.
 if (user_choice == "Home" or user_choice == "About me"):
