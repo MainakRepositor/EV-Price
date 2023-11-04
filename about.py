@@ -8,5 +8,5 @@ def app():
     st.title('Contact Us')
     st.markdown('''### © 2023  ''')
     st.markdown('''All Rights Reserved. Quantum Cars''')
-    st.markdown('''Kshitij Khare & Shreyas Dutta''')
+    st.markdown('''Koushik''')
     
